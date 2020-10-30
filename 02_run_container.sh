@@ -1,4 +1,18 @@
 #!/bin/bash
+if [ ! -d "Commands" ]
+then
+    mkdir -p "Commands/bin"
+fi
+
+if [ ! -d "Projects/dev_ws_src" ]
+then
+    mkdir -p "Projects/dev_ws_src"
+fi
+
+if [ ! -d "ExampleCode" ]
+then
+    mkdir -p "ExampleCode"
+fi
 
 if ! command -v glxinfo &> /dev/null
 then
