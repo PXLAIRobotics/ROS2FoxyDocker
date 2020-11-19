@@ -1,20 +1,24 @@
 FROM osrf/ros:foxy-desktop
 
-# The OSRF ROS2 containers use the root user.
-# Therefore, the following commands are executed as root up until the
-# USER user statement.
+# After FROM, enter the parent image from wich you want to build.
+# We choose foxy-desktop.
 
-# We love UTF!
+# Currently, we are operating as root.
+
+# Environment variable -> set language to C (computer) UTF-8 (8 bit unicode transformation format).
 ENV LANG C.UTF-8
 
+# Debconf is used to perform system-wide configutarions.
+# Noninteractive -> use default settings -> put in debconf db.
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-# Set the nvidia container runtime
+# Set the nvidia container runtime.
 ENV NVIDIA_VISIBLE_DEVICES \
     ${NVIDIA_VISIBLE_DEVICES:-all}
 ENV NVIDIA_DRIVER_CAPABILITIES \
     ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 
+# Environment variable -> see output in real time.
 ENV PYTHONUNBUFFERED 1
 
 # Install some handy tools.
@@ -38,14 +42,17 @@ RUN set -x \
 # The OSRF container didn't link python3 to python, causing ROS scripts to fail.
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
+# Set USER to user + define working directory.
 USER user
 WORKDIR /home/user
 
+# tmux
 RUN git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack  \
         && git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux-resurrect
 COPY --chown=user:user ./.tmux.conf /home/user/.tmux.conf
 COPY --chown=user:user ./.powerline.sh /home/user/.powerline.sh
 
+# vim
 RUN mkdir -p /home/user/.vim/bundle \
         && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
