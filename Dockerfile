@@ -28,6 +28,7 @@ RUN set -x \
         && apt-get install -y openssh-server python3-pip exuberant-ctags \
         && apt-get install -y git vim tmux nano htop sudo curl wget gnupg2 \
         && apt-get install -y bash-completion \
+        && apt-get install -y python3-psycopg2 \
         && pip3 install powerline-shell \
         && rm -rf /var/lib/apt/lists/* \
         && useradd -ms /bin/bash user \
