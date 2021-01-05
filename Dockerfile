@@ -1,4 +1,4 @@
-FROM osrf/ros:foxy-desktop
+FROM ros:foxy
 
 # After FROM, enter the parent image from wich you want to build.
 # We choose foxy-desktop.
